@@ -1,0 +1,25 @@
+kind: kcli_params
+metadata:
+  name: fede
+tag: 4.16
+ctlplanes: 1
+workers: 0
+pool: default
+network_type: OVNKubernetes
+pull_secret: pull.json
+ctlplane_memory: 32768
+disk_size: 50
+vmrules:
+  - ^.*ctlplane.*:
+      nets:
+        - name: default
+        - name: leaf2-node
+          ip: 192.168.11.3
+          gateway: 192.168.11.1
+          netmask: 24
+          dchp: false
+      files:
+      - path: /tmp/frr
+        origin: ocp/frr
+
+

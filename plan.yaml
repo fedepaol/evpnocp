@@ -1,0 +1,94 @@
+leaf1-host:
+ type: network
+ cidr: 192.168.10.0/24
+leaf1-spine:
+ type: network
+ cidr: 192.168.1.0/24
+leaf2-spine:
+ type: network
+ cidr: 192.168.2.0/24
+leaf2-node:
+ type: network
+ cidr: 192.168.11.0/24
+
+host:
+  image: rhel9
+  numcpus: 4
+  memory: 2048
+  nets:
+    - name: leaf1-host
+      ip: 192.168.10.3
+      gateway: 192.168.10.2
+      netmask: 24
+      dhcp: false
+leaf1:
+  image: rhel9
+  numcpus: 8
+  memory: 2048
+  nets:
+    - name: leaf1-spine
+      ip: 192.168.1.2
+      gateway: 192.168.1.1
+      netmask: 24
+      dhcp: false
+    - name: leaf1-host
+      ip: 192.168.10.2
+      gateway: 192.168.10.1
+      netmask: 24
+      dhcp: false
+  files:
+  - path: /tmp/frr
+    origin: leaf1
+  cmds:
+    - dnf -y install frr
+    - rm -rf etc/frr
+    - cp -r /tmp/frr /etc/
+    - systemctl start frr
+  scripts:
+    - leaf1/setup.sh
+spine:
+  image: rhel9
+  numcpus: 8
+  memory: 2048
+  nets:
+    - name: leaf1-spine
+      ip: 192.168.1.3
+      gateway: 192.168.1.1
+      netmask: 24
+      dhcp: false
+    - name: leaf2-spine
+      ip: 192.168.2.3
+      gateway: 192.168.2.1
+      netmask: 24
+      dhcp: false
+  files:
+  - path: /tmp/frr
+    origin: spine
+  cmds:
+    - dnf -y install frr
+    - rm -rf etc/frr
+    - cp -r /tmp/frr /etc/
+    - systemctl start frr
+leaf2:
+  image: rhel9
+  numcpus: 8
+  memory: 2048
+  nets:
+    - name: leaf2-node
+      ip: 192.168.11.2
+      gateway: 192.168.11.1
+      netmask: 24
+    - name: leaf2-spine
+      ip: 192.168.2.2
+      gateway: 192.168.2.1
+      netmask: 24
+      dhcp: false
+  files:
+  - path: /tmp/frr
+    origin: leaf2
+  cmds:
+    - dnf -y install frr
+    - rm -rf etc/frr
+    - cp -r /tmp/frr /etc/
+    - systemctl start frr
+
