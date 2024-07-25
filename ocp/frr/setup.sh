@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 
-#ip addr add 192.168.11.3/24 dev eth1
+ip addr add 192.168.11.3/24 dev ens4
 ip addr add 100.65.0.2/32 dev lo
 
 
@@ -12,7 +12,7 @@ ip link add red type vrf table 1100
 ip link set frr1 master red
 ip addr add dev frr1 192.169.10.1/24
 ip link set frr1 up
-ip link set eth1 up
+ip link set ens4 up
 
 ip link set red up
 ip link add br100 type bridge

@@ -1,15 +1,23 @@
 leaf1-host:
- type: network
- cidr: 192.168.10.0/24
+  type: network
+  cidr: 192.168.10.0/24
+  dhcp: false
+  nat: false
 leaf1-spine:
- type: network
- cidr: 192.168.1.0/24
+  type: network
+  cidr: 192.168.1.0/24
+  dhcp: false
+  nat: false
 leaf2-spine:
- type: network
- cidr: 192.168.2.0/24
+  type: network
+  cidr: 192.168.2.0/24
+  dhcp: false
+  nat: false
 leaf2-node:
- type: network
- cidr: 192.168.11.0/24
+  type: network
+  cidr: 192.168.11.0/24
+  dhcp: false
+  nat: false
 
 host:
   image: rhel9
@@ -18,9 +26,7 @@ host:
   nets:
     - name: leaf1-host
       ip: 192.168.10.3
-      gateway: 192.168.10.2
       netmask: 24
-      dhcp: false
 leaf1:
   image: rhel9
   numcpus: 8
@@ -28,14 +34,11 @@ leaf1:
   nets:
     - name: leaf1-spine
       ip: 192.168.1.2
-      gateway: 192.168.1.1
       netmask: 24
-      dhcp: false
     - name: leaf1-host
       ip: 192.168.10.2
-      gateway: 192.168.10.1
       netmask: 24
-      dhcp: false
+    - name: default
   files:
   - path: /tmp/frr
     origin: leaf1
@@ -44,6 +47,7 @@ leaf1:
     - rm -rf etc/frr
     - cp -r /tmp/frr /etc/
     - systemctl start frr
+    - sysctl -w net.ipv4.ip_forward=1
   scripts:
     - leaf1/setup.sh
 spine:
@@ -53,14 +57,11 @@ spine:
   nets:
     - name: leaf1-spine
       ip: 192.168.1.3
-      gateway: 192.168.1.1
       netmask: 24
-      dhcp: false
     - name: leaf2-spine
       ip: 192.168.2.3
-      gateway: 192.168.2.1
       netmask: 24
-      dhcp: false
+    - name: default
   files:
   - path: /tmp/frr
     origin: spine
@@ -69,6 +70,7 @@ spine:
     - rm -rf etc/frr
     - cp -r /tmp/frr /etc/
     - systemctl start frr
+    - sysctl -w net.ipv4.ip_forward=1
 leaf2:
   image: rhel9
   numcpus: 8
@@ -76,13 +78,11 @@ leaf2:
   nets:
     - name: leaf2-node
       ip: 192.168.11.2
-      gateway: 192.168.11.1
       netmask: 24
     - name: leaf2-spine
       ip: 192.168.2.2
-      gateway: 192.168.2.1
       netmask: 24
-      dhcp: false
+    - name: default
   files:
   - path: /tmp/frr
     origin: leaf2
@@ -91,4 +91,5 @@ leaf2:
     - rm -rf etc/frr
     - cp -r /tmp/frr /etc/
     - systemctl start frr
+    - sysctl -w net.ipv4.ip_forward=1
 

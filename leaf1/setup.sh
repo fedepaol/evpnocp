@@ -12,7 +12,7 @@ ip link add red type vrf table 1100
 
 # Leaf - host leg
 ip link set eth1 master red
-#ip addr add 192.168.10.2/24 dev eth1
+ip addr add 192.168.10.2/24 dev eth1
 
 ip link set red up
 ip link add br100 type bridge

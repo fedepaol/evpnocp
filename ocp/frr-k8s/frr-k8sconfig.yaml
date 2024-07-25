@@ -2,7 +2,7 @@ apiVersion: frrk8s.metallb.io/v1beta1
 kind: FRRConfiguration
 metadata:
   name: test
-  namespace: frr-k8s-system
+  namespace: metallb-system
 spec:
   bgp:
     routers:
