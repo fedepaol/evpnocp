@@ -1,7 +1,18 @@
+apiVersion: k8s.ovn.org/v1
+kind: EgressIP
+metadata:
+  name: egressips-prod
+spec:
+  egressIPs:
+  - 192.169.10.6
+  namespaceSelector:
+    matchLabels:
+      app: test
+---
 apiVersion: frrk8s.metallb.io/v1beta1
 kind: FRRConfiguration
 metadata:
-  name: test
+  name: egressip
   namespace: metallb-system
 spec:
   bgp:
@@ -10,11 +21,10 @@ spec:
       neighbors:
       - address: 192.169.10.1
         asn: 64512
-        toReceive:
-          allowed:
-            mode: all
         toAdvertise:
           allowed:
             mode: all
       prefixes:
-      - 10.244.0.0/24
+      - 192.169.10.6/24
+
+

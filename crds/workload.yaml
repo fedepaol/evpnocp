@@ -1,7 +1,15 @@
 apiVersion: v1
+kind: Namespace
+metadata:
+  name: test
+  labels:
+    app: test
+---
+apiVersion: v1
 kind: Pod
 metadata:
   name: client
+  namespace: test
 spec:
   containers:
     - name: client

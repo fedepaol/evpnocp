@@ -1,0 +1,15 @@
+apiVersion: frrk8s.metallb.io/v1beta1
+kind: FRRConfiguration
+metadata:
+  name: receiveroutes
+  namespace: metallb-system
+spec:
+  bgp:
+    routers:
+    - asn: 64515
+      neighbors:
+      - address: 192.169.10.1
+        asn: 64512
+        toReceive:
+          allowed:
+            mode: all

@@ -27,6 +27,8 @@ host:
     - name: leaf1-host
       ip: 192.168.10.3
       netmask: 24
+  scripts:
+    - host/setup.sh
 leaf1:
   image: rhel9
   numcpus: 8
