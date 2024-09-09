@@ -40,7 +40,7 @@ host2:
   memory: 2048
   nets:
     - name: leaf1-host2
-      ip: 192.168.12.2
+      ip: 192.168.12.3
       netmask: 24
   scripts:
     - host2/setup.sh
@@ -55,7 +55,6 @@ leaf1:
     - name: leaf1-host
       ip: 192.168.10.2
       netmask: 24
-    - name: default
     - name: leaf1-host2
       ip: 192.168.12.2
       netmask: 24
