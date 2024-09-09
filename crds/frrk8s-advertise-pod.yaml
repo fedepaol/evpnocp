@@ -8,11 +8,11 @@ spec:
     routers:
     - asn: 64515
       neighbors:
+      neighbors:
       - address: 192.169.10.1
         asn: 64512
-        toReceive:
-          allowed:
-            mode: all
+        holdTime: 1m30s
+        keepaliveTime: 30s
         toAdvertise:
           allowed:
             mode: all

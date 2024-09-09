@@ -1,0 +1,65 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: red
+  namespace: metallb-system
+spec:
+  addresses:
+  - 192.170.10.0/24
+  serviceAllocation:
+    namespaces:
+    - red
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: green
+  namespace: metallb-system
+spec:
+  addresses:
+  - 192.171.10.0/24
+  serviceAllocation:
+    namespaces:
+    - green
+---
+apiVersion: metallb.io/v1beta1
+kind: BGPAdvertisement
+metadata:
+  name: green
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - green
+  peers:
+  - green
+---
+apiVersion: metallb.io/v1beta1
+kind: BGPAdvertisement
+metadata:
+  name: red
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - red
+  peers:
+  - red
+---
+apiVersion: metallb.io/v1beta2
+kind: BGPPeer
+metadata:
+  name: red
+  namespace: metallb-system
+spec:
+  myASN: 64515
+  peerASN: 64512
+  peerAddress: 192.169.10.1
+---
+apiVersion: metallb.io/v1beta2
+kind: BGPPeer
+metadata:
+  name: green
+  namespace: metallb-system
+spec:
+  myASN: 64515
+  peerASN: 64513
+  peerAddress: 192.169.11.1

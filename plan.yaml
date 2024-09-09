@@ -3,6 +3,11 @@ leaf1-host:
   cidr: 192.168.10.0/24
   dhcp: false
   nat: false
+leaf1-host2:
+  type: network
+  cidr: 192.168.12.0/24
+  dhcp: false
+  nat: false
 leaf1-spine:
   type: network
   cidr: 192.168.1.0/24
@@ -29,6 +34,16 @@ host:
       netmask: 24
   scripts:
     - host/setup.sh
+host2:
+  image: rhel9
+  numcpus: 4
+  memory: 2048
+  nets:
+    - name: leaf1-host2
+      ip: 192.168.12.2
+      netmask: 24
+  scripts:
+    - host2/setup.sh
 leaf1:
   image: rhel9
   numcpus: 8
@@ -39,6 +54,10 @@ leaf1:
       netmask: 24
     - name: leaf1-host
       ip: 192.168.10.2
+      netmask: 24
+    - name: default
+    - name: leaf1-host2
+      ip: 192.168.12.2
       netmask: 24
     - name: default
   files:
