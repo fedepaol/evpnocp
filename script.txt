@@ -1,0 +1,11 @@
+Check leaf1 configuration
+Check control plane configuration
+
+Apply metallb config, tcpdump on host
+
+Say it's RPF
+
+Apply frrconfig to learn routes
+
+pod pings host doesn't work
+host pings pod works

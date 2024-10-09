@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo podman run --name frr --privileged -v /etc/frr:/etc/frr -d registry.redhat.io/openshift4/frr-rhel9@sha256:22b0c5198ecad10226487f8e398dbe07008c1c4f561681e0f894aa229e8b5787
+sudo podman run --name frr --privileged -v /etc/frr:/etc/frr -d registry.redhat.io/openshift4/frr-rhel9@sha256:439d8075d41a72f53f1002a982326c3880272412a0f5d83adc3ac0872f983688
 
 sleep 1s
 NAMESPACE=$(basename $(sudo podman inspect -f '{{.NetworkSettings.SandboxKey}}' frr))
