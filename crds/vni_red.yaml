@@ -1,0 +1,16 @@
+apiVersion: per.io.openperouter.github.io/v1alpha1
+kind: VNI
+metadata:
+  name: vni-red
+  namespace: openperouter-system
+spec:
+  asn: 64514
+  vrf: red
+  vni: 100
+  vxlanport: 4789
+  localcidr: 192.169.10.0/24
+  localNeighbor:
+    asn: 64515
+    holdTime: 180s
+    keepaliveTime: 60s
+    address: 192.168.10.1

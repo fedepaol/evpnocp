@@ -17,9 +17,5 @@ vmrules:
           ip: 192.168.11.3
           gateway: 192.168.11.1
           netmask: 24
-      files:
-      - path: /etc/frr
-        origin: ocp/frr
-        currentdir: true
 
 

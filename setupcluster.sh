@@ -40,8 +40,8 @@ wait_for_pods "metallb-system" "app=frr-k8s"
 
 kubectl -n metallb-system wait --for=condition=Ready --all pods --timeout 300s
 
-kcli scp ./ocp/setup.sh fedecluster-ctlplane-0:/tmp
-kcli ssh fedecluster-ctlplane-0 /tmp/setup.sh 
+#kcli scp ./ocp/setup.sh fedecluster-ctlplane-0:/tmp
+#kcli ssh fedecluster-ctlplane-0 /tmp/setup.sh 
 
 kubectl label node fedecluster-ctlplane-0.karmalabs.corp k8s.ovn.org/egress-assignable=""
 kubectl apply -f crds/workload.yaml
