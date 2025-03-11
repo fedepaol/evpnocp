@@ -1,9 +1,9 @@
-leaf1-host:
+leaf1-hostred:
   type: network
   cidr: 192.168.10.0/24
   dhcp: false
   nat: false
-leaf1-host2:
+leaf1-hostgreen:
   type: network
   cidr: 192.168.12.0/24
   dhcp: false
@@ -24,26 +24,26 @@ leaf2-node:
   dhcp: false
   nat: false
 
-host:
+hostred:
   image: rhel9
   numcpus: 4
   memory: 2048
   nets:
-    - name: leaf1-host
+    - name: leaf1-hostred
       ip: 192.168.10.3
       netmask: 24
   scripts:
-    - host/setup.sh
+    - hostred/setup.sh
 host2:
   image: rhel9
   numcpus: 4
   memory: 2048
   nets:
-    - name: leaf1-host2
+    - name: leaf1-hostgreen
       ip: 192.168.12.3
       netmask: 24
   scripts:
-    - host2/setup.sh
+    - hostgreen/setup.sh
 leaf1:
   image: rhel9
   numcpus: 8

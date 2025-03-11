@@ -1,9 +1,9 @@
 kind: kcli_params
 metadata:
   name: fede
-tag: 4.16
+tag: 4.17
 ctlplanes: 1
-workers: 0
+workers: 2
 pool: default
 network_type: OVNKubernetes
 pull_secret: pull.json
@@ -17,9 +17,6 @@ vmrules:
           ip: 192.168.11.3
           gateway: 192.168.11.1
           netmask: 24
-      files:
-      - path: /etc/frr
-        origin: ocp/frr
-        currentdir: true
+
 
 
