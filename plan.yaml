@@ -27,17 +27,17 @@ leaf2-node:
 hostred:
   image: rhel9
   numcpus: 4
-  memory: 2048
+  memory: 512
   nets:
     - name: leaf1-hostred
       ip: 192.168.10.3
       netmask: 24
   scripts:
     - hostred/setup.sh
-host2:
+hostgreen:
   image: rhel9
   numcpus: 4
-  memory: 2048
+  memory: 512
   nets:
     - name: leaf1-hostgreen
       ip: 192.168.12.3
@@ -52,10 +52,10 @@ leaf1:
     - name: leaf1-spine
       ip: 192.168.1.2
       netmask: 24
-    - name: leaf1-host
+    - name: leaf1-hostred
       ip: 192.168.10.2
       netmask: 24
-    - name: leaf1-host2
+    - name: leaf1-hostgreen
       ip: 192.168.12.2
       netmask: 24
     - name: default

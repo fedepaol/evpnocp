@@ -7,8 +7,8 @@ workers: 2
 pool: default
 network_type: OVNKubernetes
 pull_secret: pull.json
-ctlplane_memory: 32768
-worker_memory: 16384
+ctlplane_memory: 16384
+worker_memory: 4096
 disk_size: 50
 vmrules:
   - ^.*ctlplane.*:

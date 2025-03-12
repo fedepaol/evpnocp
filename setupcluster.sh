@@ -21,29 +21,12 @@ wait_for_pods() {
 }
 
 export KUBECONFIG=/home/fpaoline/.kcli/clusters/fedecluster/auth/kubeconfig
-kubectl apply -f metallbdeploy/install-resources.yaml
 kubectl patch networks.operator.openshift.io cluster --type json  -p '[{"op": "add", "path": "/spec/defaultNetwork/ovnKubernetesConfig/gatewayConfig/ipForwarding", "value": Global}]'
 kubectl patch networks.operator.openshift.io cluster --type json  -p '[{"op": "add", "path": "/spec/defaultNetwork/ovnKubernetesConfig/gatewayConfig/routingViaHost", "value": true}]'
 
 sleep 5
 
-wait_for_pods "metallb-system" "control-plane=controller-manager"
 
-NEXT_WAIT_TIME=0
-until (( NEXT_WAIT_TIME == 5 )) || kubectl apply -f metallbdeploy/metallb_frrk8s.yaml; do
-    sleep "$(( NEXT_WAIT_TIME++ ))"
-done
-(( NEXT_WAIT_TIME < 5 ))
-
-wait_for_pods "metallb-system" "app=frr-k8s"
-
-
-kubectl -n metallb-system wait --for=condition=Ready --all pods --timeout 300s
-
-kcli scp ./ocp/setup.sh fedecluster-ctlplane-0:/tmp
-kcli ssh fedecluster-ctlplane-0 /tmp/setup.sh 
-
-kubectl label node fedecluster-ctlplane-0.karmalabs.corp k8s.ovn.org/egress-assignable=""
-kubectl apply -f crds/workload.yaml
+#kubectl label node fedecluster-ctlplane-0.karmalabs.corp k8s.ovn.org/egress-assignable=""
 
 
