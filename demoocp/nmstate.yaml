@@ -1,0 +1,18 @@
+apiVersion: nmstate.io/v1
+kind: NodeNetworkConfigurationPolicy
+metadata:
+  name: br1
+spec:
+  desiredState:
+    interfaces:
+    - name: br1
+      type: linux-bridge
+      state: up
+      ipv4:
+        enabled: false
+      bridge:
+        port:
+        - name: host110
+        options:
+          stp:
+            enabled: false

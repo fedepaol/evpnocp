@@ -1,0 +1,7 @@
+L2 migration works. We do need to disable stp or at least the forwarding delay otherwise the rarp packet is not intercepted.
+
+TODO: 
+
+- add gateway ip on each l2 bridge (now done manually)
+- leverage a secondary network to talk to uplink
+- secondary network instead of veths for the host / attach them to the bridge manually?
