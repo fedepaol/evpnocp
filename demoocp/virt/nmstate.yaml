@@ -11,8 +11,6 @@ spec:
       ipv4:
         enabled: false
       bridge:
-        port:
-        - name: host110
         options:
           stp:
             enabled: false

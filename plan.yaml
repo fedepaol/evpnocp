@@ -8,6 +8,11 @@ leaf1-hostgreen:
   cidr: 192.168.12.0/24
   dhcp: false
   nat: false
+leaf1-hostblue:
+  type: network
+  cidr: 192.168.13.0/24
+  dhcp: false
+  nat: false
 leaf1-spine:
   type: network
   cidr: 192.168.1.0/24
@@ -44,6 +49,16 @@ hostgreen:
       netmask: 24
   scripts:
     - hostgreen/setup.sh
+hostblue:
+  image: rhel9
+  numcpus: 4
+  memory: 512
+  nets:
+    - name: leaf1-hostblue
+      ip: 192.168.13.3
+      netmask: 24
+  scripts:
+    - hostblue/setup.sh
 leaf1:
   image: rhel9
   numcpus: 8
@@ -57,6 +72,9 @@ leaf1:
       netmask: 24
     - name: leaf1-hostgreen
       ip: 192.168.12.2
+      netmask: 24
+    - name: leaf1-hostblue
+      ip: 192.168.13.2
       netmask: 24
     - name: default
   files:

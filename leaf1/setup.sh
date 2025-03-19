@@ -42,3 +42,21 @@ ip link set vni200 master br200 addrgenmode none
 ip link set vni200 type bridge_slave neigh_suppress on learning off
 ip link set vni200 up
 ip link set br200 up
+
+# L3 VRF
+ip link add blue type vrf table 1102
+
+# Leaf - host leg
+ip link set eth3 master blue
+ip addr add 192.168.13.2/24 dev eth3
+ip r add 192.168.13.0/24 dev eth3 vrf blue
+
+ip link set blue up
+ip link add br300 type bridge
+ip link set br300 master red addrgenmode none
+ip link set br300 addr aa:bb:cc:01:00:69
+ip link add vni300 type vxlan local 100.64.0.1 dstport 4789 id 300 nolearning
+ip link set vni300 master br300 addrgenmode none
+ip link set vni300 type bridge_slave neigh_suppress on learning off
+ip link set vni300 up
+ip link set br300 up

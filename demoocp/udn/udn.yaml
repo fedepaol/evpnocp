@@ -1,0 +1,90 @@
+apiVersion: nmstate.io/v1
+kind: NodeNetworkConfigurationPolicy
+metadata:
+  name: greenvrf
+spec:
+  desiredState:
+    interfaces:
+    - name: green
+      type: vrf
+      state: up
+      route-table-id: 998
+---
+apiVersion: frrk8s.metallb.io/v1beta1
+kind: FRRConfiguration
+metadata:
+  name: vpn-green
+  namespace: openshift-frr-k8s
+  labels:
+    routeAdvertisements: vpn-green
+spec:
+  bgp:
+    routers:
+    - asn: 64515
+      vrf: green
+      neighbors:
+      - address: 192.169.12.0
+        asn: 64513
+        toReceive:
+          allowed:
+            mode: filtered
+---
+apiVersion: k8s.ovn.org/v1
+kind: RouteAdvertisements
+metadata:
+  name: green
+  namespace: green
+spec:
+  targetVRF: auto
+  advertisements:
+    - PodNetwork
+  networkSelector:
+    matchExpressions:
+    - { key: k8s.ovn.org/metadata.name, operator: In, values: [green] }
+  frrConfigurationSelector:
+    matchLabels:
+      routeAdvertisements: vpn-green
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: green
+  labels:
+    k8s.ovn.org/primary-user-defined-network: ""
+---
+apiVersion: k8s.ovn.org/v1
+kind: UserDefinedNetwork
+metadata:
+  name: green
+  namespace: green
+  labels:
+    k8s.ovn.org/metadata.name: "green"
+spec:
+  topology: Layer3
+  layer3: 
+    role: Primary
+    subnets: 
+      - cidr: 10.150.0.0/16
+        hostSubnet: 24
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: greenpod
+  namespace: green
+spec:
+  securityContext: 
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+    - name: client
+      securityContext:
+        allowPrivilegeEscalation: false
+        runAsNonRoot: true
+        capabilities:
+          drop: ["ALL"]
+      image: quay.io/fpaoline/fedoranet:3.0
+      command: ["/bin/sh", "-c"]
+      args:
+        ["sleep INF"]

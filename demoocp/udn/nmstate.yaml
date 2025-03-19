@@ -1,0 +1,11 @@
+apiVersion: nmstate.io/v1
+kind: NodeNetworkConfigurationPolicy
+metadata:
+  name: br1
+spec:
+  desiredState:
+    interfaces:
+    - name: green
+      type: vrf
+      state: up
+      route-table-id: 998

@@ -1,0 +1,16 @@
+apiVersion: frrk8s.metallb.io/v1beta1
+kind: FRRConfiguration
+metadata:
+  name: hostnetwork
+  namespace: openshift-frr-k8s
+spec:
+  bgp:
+    routers:
+    - asn: 64515
+      neighbors:
+      - address: 192.169.11.0
+        asn: 64513
+        toReceive:
+          allowed:
+            mode: all
+

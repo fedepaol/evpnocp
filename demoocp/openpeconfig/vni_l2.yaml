@@ -1,0 +1,12 @@
+apiVersion: openpe.openperouter.github.io/v1alpha1
+kind: VNI
+metadata:
+  name: vmsl2
+  namespace: openperouter-system
+spec:
+  vni: 110
+  vrf: vmsl2
+  type: l2
+  l2gatewayip: 192.170.1.0/24
+  hostmaster: br10
+---

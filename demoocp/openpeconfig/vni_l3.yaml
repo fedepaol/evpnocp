@@ -1,25 +1,36 @@
 apiVersion: openpe.openperouter.github.io/v1alpha1
 kind: VNI
 metadata:
-  name: redl2
+  name: vms
   namespace: openperouter-system
 spec:
   asn: 64514
-  vni: 110
-  vrf: red
+  vni: 100
   localcidr: 192.169.10.0/24
   hostasn: 64515
-  type: l2
+  type: l3
 ---
 apiVersion: openpe.openperouter.github.io/v1alpha1
 kind: VNI
 metadata:
-  name: greenl2
+  name: hostbased
   namespace: openperouter-system
 spec:
-  asn: 64514 # not needed
-  vni: 210
-  vrf: green
+  asn: 64513
+  vni: 200
   localcidr: 192.169.11.0/24
   hostasn: 64515
-  type: l2
+  type: l3
+---
+apiVersion: openpe.openperouter.github.io/v1alpha1
+kind: VNI
+metadata:
+  name: udn
+  namespace: openperouter-system
+spec:
+  asn: 64513
+  vni: 300
+  localcidr: 192.169.12.0/24
+  hostasn: 64515
+  type: l3
+  hostmaster: green

@@ -1,12 +1,14 @@
 kind: kcli_params
 metadata:
   name: fede
-tag: 4.17
+tag: 4.19
+version: nightly
 ctlplanes: 1
 workers: 2
 pool: default
+techpreview: true
 network_type: OVNKubernetes
-pull_secret: pull.json
+pull_secret: openshift_pull.json
 ctlplane_memory: 32768
 worker_memory: 16384
 disk_size: 50
